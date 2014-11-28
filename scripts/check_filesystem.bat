@@ -1,0 +1,19 @@
+REM file:     check_filesystem.bat
+REM author:   MaestroPanel Support <ping@maestropanel.com>
+REM
+REM  Scan the filesystem for the CryptoPHP backdoor.
+REM  It will only scan "social*.png" files.
+REM
+REM  Known MD5 hashes are compared to determine if it's really CryptoPHP.
+REM  
+REM  Port from https://github.com/fox-it/cryptophp/blob/master/scripts/check_filesystem.py Fox-IT Security Research Team
+REM  
+REM Dependency: Log Parser 2.2 (http://www.microsoft.com/en-us/download/details.aspx?id=24659)
+
+@echo off
+SETLOCAL
+
+SET "ScanPath=C:\vhosts"
+SET /P ScanPath=Please enter your scan path [default is %ScanPath%]: 
+
+"C:\Program Files (x86)\Log Parser 2.2\LogParser.exe" "SELECT Path FROM %ScanPath%\social*.png WHERE HASHMD5_FILE(Path) IN  ('048A54B0F740991A763C040F7DD67D2B'; 'D3C9F64B8D1675F02AA833D83A5C6342'; '3A2CA46EC07240B78097ACC2965B352E'; '4C641297FE142AEA3FD1117CF80C2C8B'; 'E27122BA785627FCA79B4A19C8EEA38B'; '2640B3613223DBB3606D59AA8FC0465F'; 'F5D6F783D39336EE30E17E1BC7F8C2EF'; 'B75C82E68870115B45F6892BD23E72CF'; '29576640791AC19308D3CD36FB3BA17B'; 'B4764159901CBB6DA443E789B775B928'; '1ED6CC30F83AC867114F911892A01A2D'; '325FC9442AE66D6AD8E5E71BB1129894'; '5B1D09F70DCFE7A3D687AAEF136C18A1'; '20671FAFA76B2D2F4BA0D2690E3E07DC'; '3249B669BB11F49A76850660411720E2'; 'FFD91F505D56189819352093268216AD'; '20671FAFA76B2D2F4BA0D2690E3E07DC'; 'B4B2C193F8AF66B093CE1F1D284406A5') AND EXTRACT_EXTENSION(Path) = 'png'" -i:FS -o:datagrid
